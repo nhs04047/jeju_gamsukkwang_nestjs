@@ -21,4 +21,8 @@ export class UserRepository {
   create(user: RegisterCreateDto): Promise<User> {
     return this.userModel.create(user);
   }
+
+  findUserByEmail(email: string) {
+    return this.userModel.findOne({ email });
+  }
 }

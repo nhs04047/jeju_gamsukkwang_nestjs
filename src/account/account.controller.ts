@@ -1,3 +1,4 @@
+import { LoginRequestDto } from './dto/login.request.dto';
 import { AccountService } from './account.service';
 import { RegisterRequestDto } from './dto/register.request.dto';
 import { Body, Controller, Post } from '@nestjs/common';
@@ -11,8 +12,8 @@ export class AccountController {
     return this.accountSevice.singUp(body);
   }
 
-  // @Post('login')
-  // login(@Body() body: LoginRequestDto) {
-  //   return this.accountSevice.login(body);
-  // }
+  @Post('login')
+  login(@Body() body: LoginRequestDto) {
+    return this.accountSevice.login(body);
+  }
 }
