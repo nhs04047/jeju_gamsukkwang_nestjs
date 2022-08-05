@@ -1,7 +1,14 @@
 import { UserCurrentDto } from './dto/user.current.dto';
 import { JwtAuthGuard } from './../account/jwt/jwt.guard';
 import { UserService } from './user.service';
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { CurrentUser } from 'src/common/decorator.ts/user.decorator';
 
 @Controller('user')
@@ -11,6 +18,36 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get()
   getCurentUser(@CurrentUser() user: UserCurrentDto) {
+    return user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch()
+  setUser(@CurrentUser() user: UserCurrentDto) {
+    return user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('profileImg')
+  setProfileImg(@CurrentUser() user: UserCurrentDto) {
+    return user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('stamp')
+  addStamp(@CurrentUser() user: UserCurrentDto) {
+    return user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('exp')
+  addExp(@CurrentUser() user: UserCurrentDto) {
+    return user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  withdrawUser(@CurrentUser() user: UserCurrentDto) {
     return user;
   }
 }
