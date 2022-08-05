@@ -1,3 +1,4 @@
+import { JwtStrategy } from './jwt/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './../user/user.module';
 import { Module } from '@nestjs/common';
@@ -18,6 +19,6 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [AccountController],
-  providers: [AccountService],
+  providers: [AccountService, JwtStrategy],
 })
 export class AccountModule {}

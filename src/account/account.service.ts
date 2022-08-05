@@ -59,7 +59,7 @@ export class AccountService {
       throw new Error('system.error.differentPassword');
     }
 
-    const payload = { email, sub: user.id };
+    const payload = { email, sub: id };
 
     const token = this.jwtService.sign(payload);
     const loginUser = {
