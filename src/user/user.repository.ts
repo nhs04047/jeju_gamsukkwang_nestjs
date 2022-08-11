@@ -1,3 +1,4 @@
+import { UserupdatetDto } from './dto/user.update.dto';
 import { UserCurrentDto } from './dto/user.current.dto';
 import { RegisterCreateDto } from './../account/dto/register.create.dto';
 import { User, UserDocument } from './user.schema';
@@ -25,6 +26,20 @@ export class UserRepository {
 
   findUserByEmail(email: string) {
     return this.userModel.findOne({ email });
+  }
+
+  async update(id: string, toUpdate: UserupdatetDto): Promise<User> {
+    const filter = { id };
+    const update = { $set: toUpdate };
+    const option = { returnOriginal: false };
+
+    const updateUser = await this.userModel.findOneAndUpdate(
+      filter,
+      update,
+      option,
+    );
+
+    return updateUser;
   }
 
   async findUserByIdWithoutPassword(

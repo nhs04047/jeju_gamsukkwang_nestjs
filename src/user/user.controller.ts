@@ -1,7 +1,9 @@
+import { UserupdatetDto } from './dto/user.update.dto';
 import { UserCurrentDto } from './dto/user.current.dto';
 import { JwtAuthGuard } from './../account/jwt/jwt.guard';
 import { UserService } from './user.service';
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -23,8 +25,11 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Patch()
-  setUser(@CurrentUser() user: UserCurrentDto) {
-    return user;
+  setUser(
+    @CurrentUser() user: UserCurrentDto,
+    @Body() toUdate: UserupdatetDto,
+  ) {
+    return this.userService.setUser(user.id, toUdate);
   }
 
   @UseGuards(JwtAuthGuard)
