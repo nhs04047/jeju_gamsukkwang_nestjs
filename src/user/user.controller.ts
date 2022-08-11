@@ -40,8 +40,11 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Post('stamp')
-  addStamp(@CurrentUser() user: UserCurrentDto) {
-    return user;
+  addStamp(
+    @CurrentUser() user: UserCurrentDto,
+    @Body('tourId') tourId: string,
+  ) {
+    return this.userService.addStamp(user.id, tourId);
   }
 
   @UseGuards(JwtAuthGuard)

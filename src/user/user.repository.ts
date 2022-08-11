@@ -2,7 +2,7 @@ import { UserupdatetDto } from './dto/user.update.dto';
 import { UserCurrentDto } from './dto/user.current.dto';
 import { RegisterCreateDto } from './../account/dto/register.create.dto';
 import { User, UserDocument } from './user.schema';
-import { ConsoleLogger, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -31,6 +31,22 @@ export class UserRepository {
   async update(id: string, toUpdate: UserupdatetDto): Promise<User> {
     const filter = { id };
     const update = { $set: toUpdate };
+    const option = { returnOriginal: false };
+
+    const updateUser = await this.userModel.findOneAndUpdate(
+      filter,
+      update,
+      option,
+    );
+
+    return updateUser;
+  }
+
+  async addStamp(userId: string, tourId: string): Promise<User> {
+    const filter = { id: userId };
+    const update = {
+      $push: { stamp: tourId },
+    };
     const option = { returnOriginal: false };
 
     const updateUser = await this.userModel.findOneAndUpdate(
