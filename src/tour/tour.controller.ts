@@ -49,8 +49,9 @@ export class TourController {
     return this.tourService.addLike(id, user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/disLike')
-  removeLike() {
-    return 'pass';
+  removeLike(@CurrentUser() user: UserCurrentDto, @Param('id') id: string) {
+    return this.tourService.removeLike(id, user.id);
   }
 }

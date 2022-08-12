@@ -65,4 +65,21 @@ export class TourRepository {
 
     return addLikeCount;
   }
+
+  async removeLike(landmarkId: string, userId: string) {
+    const filter = { id: landmarkId };
+    const update = {
+      $inc: { likeCount: -1 },
+      $pull: { likedUsers: userId },
+    };
+    const option = { returnOriginal: false };
+
+    const addLikeCount = await this.tourModule.findOneAndUpdate(
+      filter,
+      update,
+      option,
+    );
+
+    return addLikeCount;
+  }
 }
