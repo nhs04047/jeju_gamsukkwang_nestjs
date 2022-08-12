@@ -1,6 +1,17 @@
+import { UserCurrentDto } from './../user/dto/user.current.dto';
+import { JwtAuthGuard } from './../account/jwt/jwt.guard';
 import { TourSearchDto } from './dto/tour.search.dto';
 import { TourService } from './tour.service';
-import { Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import {
+  ConsoleLogger,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { CurrentUser } from 'src/common/decorator.ts/user.decorator';
 
 @Controller('tour')
 export class TourController {
@@ -32,9 +43,10 @@ export class TourController {
     return 'pass';
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/onLike')
-  addLike() {
-    return 'pass';
+  addLike(@CurrentUser() user: UserCurrentDto, @Param('id') id: string) {
+    return this.tourService.addLike(id, user.id);
   }
 
   @Patch(':id/disLike')

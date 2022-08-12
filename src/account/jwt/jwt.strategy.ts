@@ -17,7 +17,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.userRepository.findUserByIdWithoutPassword(
       payload.sub,
     );
-    console.log(user);
     if (!user) {
       throw new HttpException('system.error.unvalidToken', 401);
     }

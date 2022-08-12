@@ -17,7 +17,7 @@ export class TourRepository {
     return result;
   }
 
-  async searchByName(name: string): Promise<Tour[]> {
+  async searchLandmarkByName(name: string): Promise<Tour[]> {
     const condition = [
       {
         $search: {
@@ -36,5 +36,33 @@ export class TourRepository {
   async findLandmarkById(id: string): Promise<Tour> {
     const landmark = await this.tourModule.findOne({ id });
     return landmark;
+  }
+
+  async didUserLiked(landmarkId: string, userId: string) {
+    const didUserLiked = await this.tourModule.exists({
+      $and: [{ id: landmarkId }, { likedUsers: userId }],
+    });
+    if (didUserLiked) {
+      return true;
+    }
+
+    return false;
+  }
+
+  async addLike(landmarkId: string, userId: string) {
+    const filter = { id: landmarkId };
+    const update = {
+      $inc: { likeCount: 1 },
+      $push: { likedUsers: userId },
+    };
+    const option = { returnOriginal: false };
+
+    const addLikeCount = await this.tourModule.findOneAndUpdate(
+      filter,
+      update,
+      option,
+    );
+
+    return addLikeCount;
   }
 }

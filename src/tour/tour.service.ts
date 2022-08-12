@@ -11,7 +11,9 @@ export class TourService {
   }
 
   async serchLandmark(data: TourSearchDto) {
-    const searchedTours = await this.tourRepository.searchByName(data.name);
+    const searchedTours = await this.tourRepository.searchLandmarkByName(
+      data.name,
+    );
     if (searchedTours.length === 0) {
       throw new HttpException('system.error.noLandmark', 400);
     }
@@ -24,5 +26,30 @@ export class TourService {
       throw new HttpException('system.error.noLandmark', 400);
     }
     return landmark;
+  }
+
+  async addLike(landmarkId: string, userId: string) {
+    const isLandmarkExist = await this.tourRepository.isLandmarkExist(
+      landmarkId,
+    );
+    if (!isLandmarkExist) {
+      throw new HttpException('system.error.noLandmark', 400);
+    }
+
+    const didUserLiked = await this.tourRepository.didUserLiked(
+      landmarkId,
+      userId,
+    );
+    // 이미 좋아요를 추가한 상태임을 의미 (boolean 타입 리턴)
+    if (didUserLiked) {
+      throw new HttpException('system.error.alreadyLiked', 400);
+    }
+
+    const addLiketoLandmark = await this.tourRepository.addLike(
+      landmarkId,
+      userId,
+    );
+
+    return addLiketoLandmark;
   }
 }

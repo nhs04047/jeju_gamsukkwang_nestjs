@@ -61,7 +61,6 @@ export class UserRepository {
   async findUserByIdWithoutPassword(
     userId: string,
   ): Promise<UserCurrentDto | null> {
-    console.log(userId);
     const user = await this.userModel
       .findOne({ id: userId })
       .select('-hashedPassword');
