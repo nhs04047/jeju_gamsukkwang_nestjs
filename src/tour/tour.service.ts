@@ -10,8 +10,8 @@ export class TourService {
     return this.tourRepository.findAll();
   }
 
-  async serchLandmark(name: TourSearchDto) {
-    const searchedTours = await this.tourRepository.searchByName(name);
+  async serchLandmark(data: TourSearchDto) {
+    const searchedTours = await this.tourRepository.searchByName(data.name);
     if (searchedTours.length === 0) {
       throw new HttpException('system.error.noLandmark', 400);
     }

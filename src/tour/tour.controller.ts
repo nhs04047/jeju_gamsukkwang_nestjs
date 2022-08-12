@@ -12,9 +12,8 @@ export class TourController {
   }
 
   @Get('search')
-  searchLandmark(@Query('name') name: TourSearchDto) {
-    console.log(name);
-    return this.tourService.serchLandmark(name);
+  searchLandmark(@Query() data: TourSearchDto) {
+    return this.tourService.serchLandmark(data);
   }
 
   // none: 등록순, like: 좋아요순, review: 리뷰수 순, rating: 평점 평균 순

@@ -18,7 +18,7 @@ export class TourRepository {
     return result;
   }
 
-  async searchByName(name: TourSearchDto): Promise<Tour[]> {
+  async searchByName(name: string): Promise<Tour[]> {
     const condition = [
       {
         $search: {
