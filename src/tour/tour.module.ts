@@ -3,13 +3,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TourRepository } from './tour.repository';
 import { Module } from '@nestjs/common';
 import { TourController } from './tour.controller';
+import { TourService } from './tour.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Tour.name, schema: TourSchema }]),
   ],
   controllers: [TourController],
-  providers: [TourRepository],
+  providers: [TourRepository, TourService],
   exports: [TourRepository],
 })
 export class TourModule {}

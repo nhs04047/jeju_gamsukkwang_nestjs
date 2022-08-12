@@ -1,10 +1,18 @@
-import { Controller, Get, Patch } from '@nestjs/common';
+import { TourService } from './tour.service';
+import { Controller, Get, Patch, Query } from '@nestjs/common';
 
 @Controller('tour')
 export class TourController {
+  constructor(private readonly tourService: TourService) {}
+
   @Get()
   getAllLandmarks() {
-    return 'pass';
+    return this.tourService.getAllLandmarks();
+  }
+
+  @Get('search')
+  searchLandmark(@Query() name: string) {
+    return this.tourService.serchLandmark(name);
   }
 
   // none: 등록순, like: 좋아요순, review: 리뷰수 순, rating: 평점 평균 순
@@ -15,11 +23,6 @@ export class TourController {
 
   @Get('image')
   predictionImage() {
-    return 'pass';
-  }
-
-  @Get(':id')
-  searchLandmark() {
     return 'pass';
   }
 
