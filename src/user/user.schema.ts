@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsString, Min } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Min, MinLength } from 'class-validator';
 
 export type UserDocument = User & Document;
 
@@ -36,7 +36,7 @@ export class User {
   })
   @IsString()
   @IsNotEmpty()
-  @Min(2)
+  @MinLength(2)
   @Transform(({ value }: TransformFnParams) => value?.trim())
   nickname: string;
 

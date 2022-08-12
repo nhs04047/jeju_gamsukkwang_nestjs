@@ -1,6 +1,6 @@
 import { PickType } from '@nestjs/swagger';
 import { User } from './../../user/user.schema';
-import { IsNotEmpty, IsString, Min } from 'class-validator';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class RegisterRequestDto extends PickType(User, [
   'email',
@@ -8,6 +8,6 @@ export class RegisterRequestDto extends PickType(User, [
 ] as const) {
   @IsString()
   @IsNotEmpty()
-  @Min(8)
+  @MinLength(8)
   password: string;
 }

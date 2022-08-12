@@ -1,7 +1,7 @@
 import { TourRepository } from './../tour/tour.repository';
 import { UserRepository } from './user.repository';
 import { UserupdatetDto } from './dto/user.update.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 
 @Injectable()
 export class UserService {
@@ -15,7 +15,7 @@ export class UserService {
 
     const isNicknameExist = await this.userRepository.existByNickname(nickname);
     if (isNicknameExist) {
-      throw new Error('system.error.duplicatedNickname');
+      throw new HttpException('system.error.duplicatedNickname', 400);
     }
 
     const updatedUser = await this.userRepository.update(id, toUpdate);
@@ -26,7 +26,7 @@ export class UserService {
   async addStamp(userId: string, tourId: string) {
     const isTourExist = await this.tourRepository.isLandmarkExist(tourId);
     if (!isTourExist) {
-      throw new Error('system.error.noSuchTourId');
+      throw new HttpException('system.error.noSuchTourId', 400);
     }
 
     const updatedUser = await this.userRepository.addStamp(userId, tourId);

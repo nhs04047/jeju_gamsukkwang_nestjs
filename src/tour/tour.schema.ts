@@ -1,5 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Length,
+  MinLength,
+} from 'class-validator';
 
 export type TourDocument = Tour & Document;
 
@@ -15,6 +22,7 @@ export class Tour {
   id: string;
 
   @IsString()
+  @IsNotEmpty()
   krTitle: string;
 
   @IsString()

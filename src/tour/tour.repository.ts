@@ -1,3 +1,4 @@
+import { TourSearchDto } from './dto/tour.search.dto';
 import { Tour, TourDocument } from './tour.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -17,8 +18,19 @@ export class TourRepository {
     return result;
   }
 
-  async searchByName(name: string): Promise<Tour> {
-    const tour = this.tourModule.findOne({ name });
-    return tour;
+  async searchByName(name: TourSearchDto): Promise<Tour[]> {
+    const condition = [
+      {
+        $search: {
+          index: 'searchByName',
+          text: {
+            query: name,
+            path: 'krTitle',
+          },
+        },
+      },
+    ];
+    const searchLandmark = await this.tourModule.aggregate(condition);
+    return searchLandmark;
   }
 }

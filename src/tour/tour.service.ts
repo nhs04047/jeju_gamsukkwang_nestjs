@@ -1,5 +1,6 @@
+import { TourSearchDto } from './dto/tour.search.dto';
 import { TourRepository } from './tour.repository';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class TourService {
@@ -9,7 +10,11 @@ export class TourService {
     return this.tourRepository.findAll();
   }
 
-  serchLandmark(name: string) {
-    return this.tourRepository.searchByName(name);
+  async serchLandmark(name: TourSearchDto) {
+    const searchedTours = await this.tourRepository.searchByName(name);
+    if (searchedTours.length === 0) {
+      throw new HttpException('system.error.noLandmark', 400);
+    }
+    return searchedTours;
   }
 }

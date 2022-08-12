@@ -1,7 +1,7 @@
 import { LoginRequestDto } from './dto/login.request.dto';
 import { UserRepository } from './../user/user.repository';
 import { RegisterRequestDto } from './dto/register.request.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -18,12 +18,12 @@ export class AccountService {
 
     const isEmailExist = await this.userRepository.existByEmail(email);
     if (isEmailExist) {
-      throw new Error('system.error.duplicatedEmail');
+      throw new HttpException('system.error.duplicatedEmail', 400);
     }
 
     const isNicknameExist = await this.userRepository.existByNickname(nickname);
     if (isNicknameExist) {
-      throw new Error('system.error.duplicatedNickname');
+      throw new HttpException('system.error.duplicatedNickname', 400);
     }
 
     const id = uuidv4();
@@ -45,7 +45,7 @@ export class AccountService {
     const { email, password } = data;
     const user = await this.userRepository.findUserByEmail(email);
     if (!user) {
-      throw new Error('system.error.noUser');
+      throw new HttpException('system.error.noUser', 401);
     }
 
     const { id, nickname, hashedPassword } = user;
@@ -56,7 +56,7 @@ export class AccountService {
     );
 
     if (!isPasswordValidated) {
-      throw new Error('system.error.differentPassword');
+      throw new HttpException('system.error.differentPassword', 401);
     }
 
     const payload = { email, sub: id };

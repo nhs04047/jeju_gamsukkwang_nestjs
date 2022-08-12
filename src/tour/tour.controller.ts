@@ -1,3 +1,4 @@
+import { TourSearchDto } from './dto/tour.search.dto';
 import { TourService } from './tour.service';
 import { Controller, Get, Patch, Query } from '@nestjs/common';
 
@@ -11,7 +12,8 @@ export class TourController {
   }
 
   @Get('search')
-  searchLandmark(@Query() name: string) {
+  searchLandmark(@Query('name') name: TourSearchDto) {
+    console.log(name);
     return this.tourService.serchLandmark(name);
   }
 

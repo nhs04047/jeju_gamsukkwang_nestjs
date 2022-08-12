@@ -1,6 +1,6 @@
 import { Payload } from './jwt.payload';
 import { UserRepository } from './../../user/user.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     );
     console.log(user);
     if (!user) {
-      throw new Error('system.error.unvalidToken');
+      throw new HttpException('system.error.unvalidToken', 401);
     }
 
     return user;
