@@ -1,4 +1,3 @@
-import { TourSearchDto } from './dto/tour.search.dto';
 import { Tour, TourDocument } from './tour.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -32,5 +31,10 @@ export class TourRepository {
     ];
     const searchLandmark = await this.tourModule.aggregate(condition);
     return searchLandmark;
+  }
+
+  async findLandmarkById(id: string): Promise<Tour> {
+    const landmark = await this.tourModule.findOne({ id });
+    return landmark;
   }
 }

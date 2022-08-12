@@ -17,4 +17,12 @@ export class TourService {
     }
     return searchedTours;
   }
+
+  async getLandmark(id: string) {
+    const landmark = await this.tourRepository.findLandmarkById(id);
+    if (!landmark) {
+      throw new HttpException('system.error.noLandmark', 400);
+    }
+    return landmark;
+  }
 }
