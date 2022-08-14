@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaOptions } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaOptions, SchemaFactory } from '@nestjs/mongoose';
 import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export type ReviewDocument = Review & Document;
 
@@ -62,3 +62,5 @@ export class Review {
   @IsString({ each: true })
   saveFileName: string[];
 }
+
+export const ReviewSchema = SchemaFactory.createForClass(Review);

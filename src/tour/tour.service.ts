@@ -1,3 +1,4 @@
+import { TourSortingOptions } from './tour-criteria.enum';
 import { TourSearchDto } from './dto/tour.search.dto';
 import { TourRepository } from './tour.repository';
 import { HttpException, Injectable } from '@nestjs/common';
@@ -76,5 +77,16 @@ export class TourService {
     );
 
     return addLiketoLandmark;
+  }
+
+  async getAllSortedLandmarks(criteria: TourSortingOptions) {
+    switch (criteria) {
+      case 'like':
+        return await this.tourRepository.sortByLiked();
+      case 'review':
+        return await this.tourRepository.sortByReviews();
+      case 'rating':
+        return await this.tourRepository.sortByRating();
+    }
   }
 }

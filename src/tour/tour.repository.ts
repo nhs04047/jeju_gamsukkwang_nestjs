@@ -1,10 +1,13 @@
+import { ReviewRepository } from './../review/review.repository';
 import { Tour, TourDocument } from './tour.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { throws } from 'assert';
 
 export class TourRepository {
   constructor(
     @InjectModel(Tour.name) private tourModule: Model<TourDocument>,
+    private readonly reviewRepository: ReviewRepository,
   ) {}
 
   async findAll(): Promise<Tour[]> {
@@ -81,5 +84,74 @@ export class TourRepository {
     );
 
     return addLikeCount;
+  }
+
+  async sortByLiked() {
+    const sortByLiked = await this.tourModule
+      .find({}, { _id: 0, id: 1, krTitle: 1, likeCount: 1, image: 1 })
+      .sort({ likeCount: -1 });
+    return sortByLiked;
+  }
+
+  async sortByReviews() {
+    const tourIds = await this.tourModule.find(
+      {},
+      { _id: 0, id: 1, krTitle: 1, image: 1 },
+    );
+    const newArray = [];
+
+    for (let i = 0; i < tourIds.length; i++) {
+      const newObj = {
+        id: 'none',
+        krTitle: 'none',
+        image: 'none',
+        totalReview: 0,
+      };
+      const result = await this.reviewRepository.findReviewData(tourIds[i].id);
+
+      newObj.id = tourIds[i].id;
+      newObj.krTitle = tourIds[i].krTitle;
+      newObj.image = tourIds[i].image;
+      newObj.totalReview = result.totalReview;
+
+      newArray.push(newObj);
+    }
+
+    newArray.sort((a, b) => {
+      return b.totalReview - a.totalReview;
+    });
+
+    return newArray;
+  }
+
+  async sortByRating() {
+    const tourIds = await this.tourModule.find(
+      {},
+      { _id: 0, id: 1, krTitle: 1, image: 1 },
+    );
+    const newArray = [];
+
+    for (let i = 0; i < tourIds.length; i++) {
+      const newObj = {
+        id: 'none',
+        krTitle: 'none',
+        image: 'none',
+        avgRating: 0,
+      };
+      const result = await this.reviewRepository.findReviewData(tourIds[i].id);
+
+      newObj.id = tourIds[i].id;
+      newObj.krTitle = tourIds[i].krTitle;
+      newObj.image = tourIds[i].image;
+      newObj.avgRating = Number(result.avgRating);
+
+      newArray.push(newObj);
+    }
+
+    newArray.sort((a, b) => {
+      return b.avgRating - a.avgRating;
+    });
+
+    return newArray;
   }
 }
