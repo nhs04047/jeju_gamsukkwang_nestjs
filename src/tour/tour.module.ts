@@ -1,4 +1,4 @@
-import { ReviewRepository } from './../review/review.repository';
+import { ReviewModule } from './../review/review.module';
 import { Tour, TourSchema } from './tour.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TourRepository } from './tour.repository';
@@ -9,7 +9,7 @@ import { TourService } from './tour.service';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Tour.name, schema: TourSchema }]),
-    ReviewRepository,
+    ReviewModule,
   ],
   controllers: [TourController],
   providers: [TourRepository, TourService],

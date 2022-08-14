@@ -2,12 +2,11 @@ import { ReviewRepository } from './../review/review.repository';
 import { Tour, TourDocument } from './tour.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { throws } from 'assert';
 
 export class TourRepository {
   constructor(
-    @InjectModel(Tour.name) private tourModule: Model<TourDocument>,
     private readonly reviewRepository: ReviewRepository,
+    @InjectModel(Tour.name) private tourModule: Model<TourDocument>,
   ) {}
 
   async findAll(): Promise<Tour[]> {

@@ -4,7 +4,6 @@ import { JwtAuthGuard } from './../account/jwt/jwt.guard';
 import { TourSearchDto } from './dto/tour.search.dto';
 import { TourService } from './tour.service';
 import {
-  ConsoleLogger,
   Controller,
   Get,
   Param,
