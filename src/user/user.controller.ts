@@ -1,3 +1,4 @@
+import { userPointDto } from './dto/user.point.dto';
 import { UserupdatetDto } from './dto/user.update.dto';
 import { UserCurrentDto } from './dto/user.current.dto';
 import { JwtAuthGuard } from './../account/jwt/jwt.guard';
@@ -48,9 +49,9 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('exp')
-  addExp(@CurrentUser() user: UserCurrentDto) {
-    return user;
+  @Patch('exp')
+  addExp(@CurrentUser() user: UserCurrentDto, @Body() data: userPointDto) {
+    return this.userService.addExp(user.id, data.point);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -1,3 +1,4 @@
+import { userPointDto } from './dto/user.point.dto';
 import { UserupdatetDto } from './dto/user.update.dto';
 import { UserCurrentDto } from './dto/user.current.dto';
 import { RegisterCreateDto } from './../account/dto/register.create.dto';
@@ -18,6 +19,18 @@ export class UserRepository {
   async existByNickname(nickname: string): Promise<any> {
     const result = await this.userModel.exists({ nickname });
     return result;
+  }
+
+  async findById(id: string): Promise<User> {
+    return this.userModel.findOne({ id });
+  }
+
+  async updateExp(id: string, point: number): Promise<User> {
+    const filter = { id };
+    const update = { $inc: { experience: point } };
+    const option = { returnOriginal: false };
+
+    return this.userModel.findOneAndUpdate(filter, update, option);
   }
 
   create(user: RegisterCreateDto): Promise<User> {

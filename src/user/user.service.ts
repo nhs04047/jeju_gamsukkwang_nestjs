@@ -1,3 +1,4 @@
+import { userPointDto } from './dto/user.point.dto';
 import { TourRepository } from './../tour/tour.repository';
 import { UserRepository } from './user.repository';
 import { UserupdatetDto } from './dto/user.update.dto';
@@ -32,5 +33,14 @@ export class UserService {
     const updatedUser = await this.userRepository.addStamp(userId, tourId);
 
     return updatedUser;
+  }
+
+  async addExp(userId: string, point: number) {
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      throw new HttpException('system.error.noUser', 400);
+    }
+
+    return await this.userRepository.updateExp(userId, point);
   }
 }
