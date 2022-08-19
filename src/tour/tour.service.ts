@@ -66,17 +66,17 @@ export class TourService {
       landmarkId,
       userId,
     );
-    // 이미 좋아요를 추가한 상태임을 의미 (boolean 타입 리턴)
+    // 삭제할 좋아요가 없음을 의미 (boolean type 반환)
     if (!didUserLiked) {
-      throw new HttpException('system.error.alreadyLiked', 400);
+      throw new HttpException('system.error.noLiked', 400);
     }
 
-    const addLiketoLandmark = await this.tourRepository.removeLike(
+    const removeLikeFromLandmark = await this.tourRepository.removeLike(
       landmarkId,
       userId,
     );
 
-    return addLiketoLandmark;
+    return removeLikeFromLandmark;
   }
 
   async getAllSortedLandmarks(criteria: TourSortingOptions) {
