@@ -1,18 +1,38 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { ReviewService } from './review.service';
+import { UserCurrentDto } from './../user/dto/user.current.dto';
+import { JwtAuthGuard } from './../account/jwt/jwt.guard';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { CurrentUser } from 'src/common/decorator.ts/user.decorator';
 
 @Controller('review')
 export class ReviewController {
+  constructor(private readonly reviewService: ReviewService) {}
+
   @Post('review')
   addReivew() {
     return 'pass';
   }
 
   // 해당 랜드마크의 전체 리뷰 목록 가져오기
+  // 반환
   // total: 전체 리뷰 갯수
   // totalPage: 전체 페이지 갯수
   // reviews: 실제 리뷰 정보
   @Get(':tourId/list')
-  getReviews() {
+  getReviews(
+    @Param('tourId') tourId: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ) {
     return 'pass';
   }
 
@@ -25,13 +45,14 @@ export class ReviewController {
     return 'pass';
   }
 
-  @Patch(':reviewId')
+  @Patch(':id')
   setReview() {
     return 'pass';
   }
 
-  @Delete(':reviewId')
-  deleteReview() {
-    return 'pass';
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  deleteReview(@CurrentUser() user: UserCurrentDto, @Param('id') id: string) {
+    return this.reviewService.deleteReview(user.id, id);
   }
 }

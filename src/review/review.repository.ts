@@ -7,6 +7,14 @@ export class ReviewRepository {
     @InjectModel(Review.name) private reviewModule: Model<ReviewDocument>,
   ) {}
 
+  async findById(id: string): Promise<Review> {
+    return this.reviewModule.findOne({ id });
+  }
+
+  async deleteById(id: string): Promise<any> {
+    return this.reviewModule.deleteOne({ id });
+  }
+
   async findReviewData(tourId: string) {
     const calc = await this.reviewModule.aggregate([
       { $match: { tourId } },

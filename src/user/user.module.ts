@@ -1,5 +1,4 @@
 import { TourModule } from './../tour/tour.module';
-import { TourRepository } from './../tour/tour.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './user.schema';
 import { UserRepository } from './user.repository';
