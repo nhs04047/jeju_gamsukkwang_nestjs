@@ -79,4 +79,9 @@ export class UserRepository {
       .select('-hashedPassword');
     return user;
   }
+
+  async deleteById(id: string): Promise<any> {
+    const user = await this.userModel.deleteOne({ id });
+    return user;
+  }
 }

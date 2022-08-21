@@ -43,4 +43,8 @@ export class UserService {
 
     return await this.userRepository.updateExp(userId, point);
   }
+
+  async withdrawUser(id: string) {
+    return this.userRepository.deleteById(id);
+  }
 }
