@@ -1,3 +1,4 @@
+import { ReviewPaginationDto } from './dto/review.pagination.dto';
 import { ReviewService } from './review.service';
 import { UserCurrentDto } from './../user/dto/user.current.dto';
 import { JwtAuthGuard } from './../account/jwt/jwt.guard';
@@ -28,12 +29,11 @@ export class ReviewController {
   // totalPage: 전체 페이지 갯수
   // reviews: 실제 리뷰 정보
   @Get(':tourId/list')
-  getReviews(
+  async getReviews(
     @Param('tourId') tourId: string,
-    @Query('page') page: number,
-    @Query('limit') limit: number,
+    @Query() { page, limit }: ReviewPaginationDto,
   ) {
-    return 'pass';
+    return await this.reviewService.getReviews({ tourId, page, limit });
   }
 
   // 해당 랜드마크 리뷰 요약 정보 가져오기

@@ -57,6 +57,6 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Delete()
   withdrawUser(@CurrentUser() user: UserCurrentDto) {
-    return user;
+    return this.userService.withdrawUser(user.id);
   }
 }

@@ -1,3 +1,4 @@
+import { ReviewGetListDto } from './dto/review.getList.dto';
 import { Review, ReviewDocument } from './review.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -58,6 +59,29 @@ export class ReviewRepository {
       totalReview,
       avgRating,
       starRating,
+    };
+  }
+
+  async findByTourId(getReviewsMeta: ReviewGetListDto) {
+    const { tourId, page, limit } = getReviewsMeta;
+    const total = await this.reviewModule.countDocuments({ tourId });
+    const offset = (page - 1) * limit;
+    let totalPage = Math.floor(total / limit);
+
+    if (total % limit !== 0) {
+      totalPage = Math.floor(total / limit) + 1;
+    }
+
+    const reviews = await this.reviewModule
+      .find({ tourId })
+      .limit(limit)
+      .skip(offset)
+      .sort({ createdAt: -1 }); //리뷰 목록 최신순으로
+
+    return {
+      total,
+      totalPage,
+      reviews,
     };
   }
 }

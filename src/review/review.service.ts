@@ -1,3 +1,4 @@
+import { ReviewGetListDto } from './dto/review.getList.dto';
 import { ReviewRepository } from './review.repository';
 import { Injectable, HttpException } from '@nestjs/common';
 
@@ -15,5 +16,9 @@ export class ReviewService {
       throw new HttpException('system.error.unAuthorized', 400);
     }
     return this.reviewRepository.deleteById(reviewId);
+  }
+
+  async getReviews(getReviewsMeta: ReviewGetListDto) {
+    return await this.reviewRepository.findByTourId(getReviewsMeta);
   }
 }
