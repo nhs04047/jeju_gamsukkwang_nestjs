@@ -21,4 +21,8 @@ export class ReviewService {
   async getReviews(getReviewsMeta: ReviewGetListDto) {
     return await this.reviewRepository.findByTourId(getReviewsMeta);
   }
+
+  async getReviewInfo(tourId: string) {
+    return this.reviewRepository.findReviewData(tourId);
+  }
 }

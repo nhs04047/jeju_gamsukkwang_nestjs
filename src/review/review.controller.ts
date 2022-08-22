@@ -41,8 +41,8 @@ export class ReviewController {
   // avgRating : 평점 평균
   // starRating : 각 평점 별 리뷰 갯수
   @Get(':tourId/info')
-  getReviewInfo() {
-    return 'pass';
+  getReviewInfo(@Param('tourId') tourId: string) {
+    return this.reviewService.getReviewInfo(tourId);
   }
 
   @Patch(':id')
