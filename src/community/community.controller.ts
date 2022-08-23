@@ -1,3 +1,4 @@
+import { CommunityGetListDto } from './dto/community.getList.dto';
 import { CommunityService } from './community.service';
 import { UserCurrentDto } from './../user/dto/user.current.dto';
 import { JwtAuthGuard } from './../account/jwt/jwt.guard';
@@ -8,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from 'src/common/decorator.ts/user.decorator';
@@ -43,8 +45,9 @@ export class CommunityController {
   // totalPage: 전체 혹은 모든 말머리 페이지 갯수
   // articles: 실제 게시글 정보
   @Get()
-  getAllArticle() {
-    return 'pass';
+  getAllArticle(@Query() { page, limit, head }: CommunityGetListDto) {
+    console.log(page, limit, head);
+    return this.communityService.getArticles({ page, limit, head });
   }
 
   @Delete(':id')
