@@ -59,12 +59,28 @@ export class CommunityRepository {
     };
     const option = { returnOriginal: false };
 
-    const addLikeCount = await this.communityModule.findOneAndUpdate(
+    const result = await this.communityModule.findOneAndUpdate(
       filter,
       update,
       option,
     );
 
-    return addLikeCount;
+    return result;
+  }
+
+  async removeLike(articleId: string, userId: string) {
+    const filter = { id: articleId };
+    const update = {
+      $pull: { likedUsers: userId },
+    };
+    const option = { returnOriginal: false };
+
+    const result = await this.communityModule.findOneAndUpdate(
+      filter,
+      update,
+      option,
+    );
+
+    return result;
   }
 }

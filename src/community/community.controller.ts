@@ -64,8 +64,12 @@ export class CommunityController {
     return this.communityService.addLike(articleId, user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/disLike')
-  removeLike() {
-    return 'pass';
+  removeLike(
+    @CurrentUser() user: UserCurrentDto,
+    @Param('id') articleId: string,
+  ) {
+    return this.communityService.removeLike(articleId, user.id);
   }
 }

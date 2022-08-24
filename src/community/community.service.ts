@@ -62,4 +62,27 @@ export class CommunityService {
 
     return addLikeToArticle;
   }
+
+  async removeLike(articleId: string, userId: string) {
+    const isArticleExist = await this.communityRepository.isArticleExist(
+      articleId,
+    );
+    if (!isArticleExist) {
+      throw new HttpException('system.error.noArticle', 400);
+    }
+
+    const didUserLiked = await this.communityRepository.didUserLiked(
+      articleId,
+      userId,
+    );
+    if (!didUserLiked) {
+      throw new HttpException('system.error.noLiked', 400);
+    }
+
+    const removeLikeFromArticle = this.communityRepository.removeLike(
+      articleId,
+      userId,
+    );
+    return removeLikeFromArticle;
+  }
 }
