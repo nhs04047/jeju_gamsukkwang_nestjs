@@ -40,4 +40,31 @@ export class CommunityRepository {
   deleteById(id: string) {
     this.communityModule.deleteOne({ id });
   }
+
+  isArticleExist(id: string) {
+    return this.communityModule.exists({ id });
+  }
+
+  async didUserLiked(articleId: string, userId: string) {
+    const didUserLiked = await this.communityModule.exists({
+      $and: [{ id: articleId }, { likedUsers: userId }],
+    });
+    return didUserLiked;
+  }
+
+  async addLike(articleId: string, userId: string) {
+    const filter = { id: articleId };
+    const update = {
+      $push: { likedUsers: userId },
+    };
+    const option = { returnOriginal: false };
+
+    const addLikeCount = await this.communityModule.findOneAndUpdate(
+      filter,
+      update,
+      option,
+    );
+
+    return addLikeCount;
+  }
 }

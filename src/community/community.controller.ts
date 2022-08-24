@@ -58,9 +58,10 @@ export class CommunityController {
     return this.communityService.deleteArticle(articleId, user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/onLike')
-  addLike() {
-    return 'pass';
+  addLike(@CurrentUser() user: UserCurrentDto, @Param('id') articleId: string) {
+    return this.communityService.addLike(articleId, user.id);
   }
 
   @Patch(':id/disLike')

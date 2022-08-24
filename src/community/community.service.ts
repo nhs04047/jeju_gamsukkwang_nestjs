@@ -38,4 +38,28 @@ export class CommunityService {
       throw new HttpException('system.error.fail', 400);
     }
   }
+
+  async addLike(articleId: string, userId: string) {
+    const isArticleExist = await this.communityRepository.isArticleExist(
+      articleId,
+    );
+    if (!isArticleExist) {
+      throw new HttpException('system.error.noArticle', 400);
+    }
+
+    const didUserLiked = await this.communityRepository.didUserLiked(
+      articleId,
+      userId,
+    );
+    if (didUserLiked) {
+      throw new HttpException('system.error.alreadyLiked', 400);
+    }
+
+    const addLikeToArticle = this.communityRepository.addLike(
+      articleId,
+      userId,
+    );
+
+    return addLikeToArticle;
+  }
 }
