@@ -36,4 +36,8 @@ export class CommunityRepository {
 
     return sendArticles;
   }
+
+  deleteById(id: string) {
+    this.communityModule.deleteOne({ id });
+  }
 }

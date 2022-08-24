@@ -36,7 +36,6 @@ export class CommunityController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   getArticle(@Param('id') id: string) {
-    console.log(id);
     return this.communityService.getArticle(id);
   }
 
@@ -50,9 +49,13 @@ export class CommunityController {
     return this.communityService.getArticles({ page, limit, head });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  deleteArticle() {
-    return 'pass';
+  deleteArticle(
+    @CurrentUser() user: UserCurrentDto,
+    @Param('id') articleId: string,
+  ) {
+    return this.communityService.deleteArticle(articleId, user.id);
   }
 
   @Patch(':id/onLike')

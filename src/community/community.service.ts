@@ -21,4 +21,21 @@ export class CommunityService {
     }
     return result;
   }
+
+  async deleteArticle(articleId: string, userId: string) {
+    const currentArticle = await this.communityRepository.findById(articleId);
+    if (!currentArticle) {
+      throw new HttpException('system.error.noArticle', 400);
+    }
+
+    if (userId !== currentArticle.userId) {
+      throw new HttpException('system.error.noPermission', 403);
+    }
+    try {
+      await this.communityRepository.deleteById(articleId);
+      return 'system.success';
+    } catch (err) {
+      throw new HttpException('system.error.fail', 400);
+    }
+  }
 }
