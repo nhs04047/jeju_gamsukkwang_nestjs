@@ -12,7 +12,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CurrentUser } from 'src/common/decorator.ts/user.decorator';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
 
 @Controller('community')
 export class CommunityController {

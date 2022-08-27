@@ -1,8 +1,10 @@
+import { CreateReviewDto } from './dto/review.create.dto';
 import { ReviewPaginationDto } from './dto/review.pagination.dto';
 import { ReviewService } from './review.service';
 import { UserCurrentDto } from './../user/dto/user.current.dto';
 import { JwtAuthGuard } from './../account/jwt/jwt.guard';
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -12,15 +14,19 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CurrentUser } from 'src/common/decorator.ts/user.decorator';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
 
 @Controller('review')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
-  @Post('review')
-  addReivew() {
-    return 'pass';
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  addReivew(
+    @CurrentUser() user: UserCurrentDto,
+    @Body() review: CreateReviewDto,
+  ) {
+    return this.reviewService.addReview(user, review);
   }
 
   // 해당 랜드마크의 전체 리뷰 목록 가져오기

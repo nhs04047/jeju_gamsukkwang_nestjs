@@ -8,10 +8,14 @@ import {
   Get,
   Param,
   Patch,
+  Post,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { CurrentUser } from 'src/common/decorator.ts/user.decorator';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('tour')
 export class TourController {
@@ -39,8 +43,10 @@ export class TourController {
     return this.tourService.getAllSortedLandmarks(criteria);
   }
 
-  @Get('image')
-  predictionImage() {
+  @Post('image')
+  @UseInterceptors(FileInterceptor('file'))
+  predictionImage(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
     return 'pass';
   }
 

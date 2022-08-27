@@ -8,6 +8,11 @@ export class ReviewRepository {
     @InjectModel(Review.name) private reviewModule: Model<ReviewDocument>,
   ) {}
 
+  async create(review: Review) {
+    const createdNewReview = await this.reviewModule.create(review);
+    return createdNewReview;
+  }
+
   async findById(id: string): Promise<Review> {
     return this.reviewModule.findOne({ id });
   }
@@ -83,5 +88,9 @@ export class ReviewRepository {
       totalPage,
       reviews,
     };
+  }
+
+  isPosted(tourId: string, userId: string) {
+    return this.reviewModule.exists({ $and: [{ tourId }, { userId }] });
   }
 }

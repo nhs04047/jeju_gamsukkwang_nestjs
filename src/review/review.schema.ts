@@ -54,13 +54,6 @@ export class Review {
   @IsNumber()
   @IsNotEmpty()
   rating: number;
-
-  @Prop({
-    default: [],
-  })
-  @IsArray()
-  @IsString({ each: true })
-  saveFileName: string[];
 }
 
 export const ReviewSchema = SchemaFactory.createForClass(Review);
