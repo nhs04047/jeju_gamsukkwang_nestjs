@@ -1,3 +1,4 @@
+import { ReviewUpdateDto } from './dto/review.update.dto';
 import { ReviewGetListDto } from './dto/review.getList.dto';
 import { Review, ReviewDocument } from './review.schema';
 import { InjectModel } from '@nestjs/mongoose';
@@ -92,5 +93,18 @@ export class ReviewRepository {
 
   isPosted(tourId: string, userId: string) {
     return this.reviewModule.exists({ $and: [{ tourId }, { userId }] });
+  }
+
+  async update(id: string, toUpdate: ReviewUpdateDto) {
+    const filter = { id };
+    const update = { $set: toUpdate };
+    const option = { returnOriginal: false };
+
+    const updatedReview = await this.reviewModule.findOneAndUpdate(
+      filter,
+      update,
+      option,
+    );
+    return updatedReview;
   }
 }

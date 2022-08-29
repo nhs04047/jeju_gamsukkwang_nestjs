@@ -1,3 +1,4 @@
+import { ReviewUpdateDto } from './dto/review.update.dto';
 import { CreateReviewDto } from './dto/review.create.dto';
 import { ReviewPaginationDto } from './dto/review.pagination.dto';
 import { ReviewService } from './review.service';
@@ -15,6 +16,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { identity } from 'rxjs';
 
 @Controller('review')
 export class ReviewController {
@@ -52,8 +54,13 @@ export class ReviewController {
   }
 
   @Patch(':id')
-  setReview() {
-    return 'pass';
+  @UseGuards(JwtAuthGuard)
+  setReview(
+    @CurrentUser() user: UserCurrentDto,
+    @Param('id') reviewId: string,
+    @Body() toUpdate: ReviewUpdateDto,
+  ) {
+    return this.reviewService.setReview(user.id, reviewId, toUpdate);
   }
 
   @UseGuards(JwtAuthGuard)

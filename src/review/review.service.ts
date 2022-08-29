@@ -1,3 +1,4 @@
+import { ReviewUpdateDto } from './dto/review.update.dto';
 import { TourRepository } from './../tour/tour.repository';
 import { CreateReviewDto } from './dto/review.create.dto';
 import { UserCurrentDto } from './../user/dto/user.current.dto';
@@ -67,5 +68,23 @@ export class ReviewService {
 
   async getReviewInfo(tourId: string) {
     return this.reviewRepository.findReviewData(tourId);
+  }
+
+  async setReview(userId: string, reviewId: string, toUpdate: ReviewUpdateDto) {
+    const review = await this.reviewRepository.findById(reviewId);
+
+    if (!review) {
+      throw new HttpException('system.error.noReview', 400);
+    }
+    if (userId !== review.userId) {
+      throw new HttpException('system.error.unAuthorized', 403);
+    }
+
+    const updatedReview = await this.reviewRepository.update(
+      reviewId,
+      toUpdate,
+    );
+
+    return updatedReview;
   }
 }
