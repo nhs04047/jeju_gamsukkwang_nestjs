@@ -1,4 +1,3 @@
-import { userPointDto } from './dto/user.point.dto';
 import { UserupdatetDto } from './dto/user.update.dto';
 import { UserCurrentDto } from './dto/user.current.dto';
 import { RegisterCreateDto } from './../account/dto/register.create.dto';

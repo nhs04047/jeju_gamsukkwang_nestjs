@@ -1,4 +1,3 @@
-import { userPointDto } from './dto/user.point.dto';
 import { TourRepository } from './../tour/tour.repository';
 import { UserRepository } from './user.repository';
 import { UserupdatetDto } from './dto/user.update.dto';

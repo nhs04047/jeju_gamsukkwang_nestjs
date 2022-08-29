@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaOptions, SchemaFactory } from '@nestjs/mongoose';
-import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export type ReviewDocument = Review & Document;
 
 const options: SchemaOptions = {
