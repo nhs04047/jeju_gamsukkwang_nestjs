@@ -5,11 +5,13 @@ import { TourRepository } from './tour.repository';
 import { forwardRef, Module } from '@nestjs/common';
 import { TourController } from './tour.controller';
 import { TourService } from './tour.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Tour.name, schema: TourSchema }]),
     forwardRef(() => ReviewModule),
+    HttpModule,
   ],
   controllers: [TourController],
   providers: [TourRepository, TourService],

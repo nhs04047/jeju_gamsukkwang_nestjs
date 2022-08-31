@@ -1,3 +1,4 @@
+import { s3Single } from './../common/aws/multerS3';
 import { TourSortingOptions } from './tour-criteria.enum';
 import { UserCurrentDto } from './../user/dto/user.current.dto';
 import { JwtAuthGuard } from './../account/jwt/jwt.guard';
@@ -44,10 +45,10 @@ export class TourController {
   }
 
   @Post('image')
-  @UseInterceptors(FileInterceptor('file'))
-  predictionImage(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-    return 'pass';
+  @UseInterceptors(FileInterceptor('file', s3Single()))
+  predictionImage(@UploadedFile() file: any) {
+    const { location, originalname } = file;
+    return this.tourService.predictionImage(location, originalname);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -12,7 +12,7 @@ AWS.config.update({
   region: process.env.AWS_REGION,
 });
 
-const storage = multerS3({
+export const storage = multerS3({
   s3: s3,
   acl: 'public-read',
   bucket: process.env.AWS_S3_BUCKET,
