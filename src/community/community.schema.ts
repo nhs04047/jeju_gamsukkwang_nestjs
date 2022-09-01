@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaOptions, SchemaFactory } from '@nestjs/mongoose';
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { CommunityHeads } from './community.enum';
 
 export type CommunityDocument = Community & Document;
 
@@ -22,9 +23,9 @@ export class Community {
     required: true,
     index: true,
   })
-  @IsString()
+  @IsEnum(CommunityHeads)
   @IsNotEmpty()
-  head: string;
+  head: CommunityHeads;
 
   @Prop({
     required: true,

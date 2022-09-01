@@ -1,10 +1,34 @@
+import { UserCurrentDto } from './../user/dto/user.current.dto';
+import { CommunityCreateDto } from './dto/community.create.dto';
 import { CommunityGetListDto } from './dto/community.getList.dto';
 import { CommunityRepository } from './community.repository';
 import { Injectable, HttpException } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CommunityService {
   constructor(private readonly communityRepository: CommunityRepository) {}
+
+  async addArticle(
+    userId: string,
+    userNickName: string,
+    article: CommunityCreateDto,
+  ) {
+    const id = uuidv4();
+    const { title, content, head } = article;
+
+    const newArticle = {
+      id,
+      userId,
+      userNickName,
+      title,
+      content,
+      head,
+    };
+    const createdNewArticle = await this.communityRepository.create(newArticle);
+
+    return createdNewArticle;
+  }
 
   async getArticle(id: string) {
     const article = await this.communityRepository.findById(id);

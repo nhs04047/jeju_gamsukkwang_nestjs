@@ -1,8 +1,10 @@
+import { CommunityCreateDto } from './dto/community.create.dto';
 import { CommunityGetListDto } from './dto/community.getList.dto';
 import { CommunityService } from './community.service';
 import { UserCurrentDto } from './../user/dto/user.current.dto';
 import { JwtAuthGuard } from './../account/jwt/jwt.guard';
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -19,8 +21,12 @@ export class CommunityController {
   constructor(private readonly communityService: CommunityService) {}
 
   @Post()
-  addArticle() {
-    return 'pass';
+  @UseGuards(JwtAuthGuard)
+  addArticle(
+    @CurrentUser() user: UserCurrentDto,
+    @Body() article: CommunityCreateDto,
+  ) {
+    return this.communityService.addArticle(user.id, user.nickname, article);
   }
 
   @Post('image')

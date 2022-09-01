@@ -1,3 +1,4 @@
+import { CommutnityNewArticleDto } from './dto/community.newArticle.dto';
 import { CommunityGetListDto } from './dto/community.getList.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -8,6 +9,10 @@ export class CommunityRepository {
     @InjectModel(Community.name)
     private communityModule: Model<CommunityDocument>,
   ) {}
+
+  create(newArticle: CommutnityNewArticleDto) {
+    return this.communityModule.create(newArticle);
+  }
 
   findById(id: string) {
     return this.communityModule.findOne({ id });
