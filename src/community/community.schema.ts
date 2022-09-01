@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaOptions, SchemaFactory } from '@nestjs/mongoose';
 import { IsArray, IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { CommunityHeads } from './community.enum';
+import { CommunityHeads } from './enums/community.enum';
 
 export type CommunityDocument = Community & Document;
 

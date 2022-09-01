@@ -1,5 +1,5 @@
 import { s3Single } from './../common/aws/multerS3';
-import { TourSortingOptions } from './tour-criteria.enum';
+import { TourSortingOptions } from './enums/tour-criteria.enum';
 import { UserCurrentDto } from './../user/dto/user.current.dto';
 import { JwtAuthGuard } from './../account/jwt/jwt.guard';
 import { TourSearchDto } from './dto/tour.search.dto';
